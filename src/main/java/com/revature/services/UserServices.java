@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.List;
+
 import com.revature.beans.User;
 import com.revature.data.UserDAO;
 
@@ -20,5 +22,13 @@ public class UserServices {
 			System.out.println("That username is not associated with an account.");
 			return null;
 		} 
+	}
+	
+	public void registerUser(String username, String password, String email) {
+		// This function will generate a User with the 
+		// specified attributes and populate users.dat with it.  
+		List<User> userList = ud.getUsers(); 
+		User u = new User(userList.size(), username, password, email);
+		ud.writeToFile(u);
 	}
 }

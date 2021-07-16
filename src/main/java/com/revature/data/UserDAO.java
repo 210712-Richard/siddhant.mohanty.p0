@@ -14,6 +14,14 @@ public class UserDAO {
 	private static String filename = "users.dat";
 	private static List<User> users;
 	
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		UserDAO.users = users;
+	}
+
 	static {
 		DataSerializer<User> ds = new DataSerializer<User>();
 		users = ds.readObjectsFromFile(filename);
@@ -44,8 +52,9 @@ public class UserDAO {
 		// I'll leave this method as a placeholder for our Week 3 Database integration.
 	}
 	
-	public void writeToFile() {
+	public void writeToFile(User user) {
+		// Adds a specified user into the users list and writes the list to a file.
+		users.add(user);
 		new DataSerializer<User>().writeObjectsToFile(users, filename);
 	}
-
 }
