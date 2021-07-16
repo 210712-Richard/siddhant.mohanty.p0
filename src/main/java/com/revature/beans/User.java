@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class User {
-	private static final long serialVersionUID = -6426075925303078798L;
+	// private static final long serialVersionUID = -6426075925303078798L;
 	private Integer id;
 	private String username;
+	private String password;
 	private String email;
 	private UserType type;
-	private int behaviorScore; // Indicator of how friendly a user is
+	private int behaviorScore; // Indicator of how friendly a user is. A lower score is worse.
 	private boolean banned; // Indicator of whether a user is banned or not. 0 behavior score is an auto-ban.
 	
 	public User() {
@@ -19,10 +20,11 @@ public class User {
 		this.banned = false;
 	}
 	
-	public User(Integer id, String username, String email) {
+	public User(Integer id, String username, String password, String email) {
 		this();
 		this.id = id;
 		this.username = username;
+		this.password = password;
 		this.email = email;
 	}
 	
@@ -38,6 +40,14 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getEmail() {
 		return email;
 	}
