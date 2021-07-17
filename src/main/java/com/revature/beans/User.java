@@ -2,8 +2,9 @@ package com.revature.beans;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable{
 	// private static final long serialVersionUID = -6426075925303078798L;
 	private Integer id;
 	private String username;
