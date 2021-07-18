@@ -18,7 +18,7 @@ public class Menu {
 	
 	public void start() {
 		Log.trace("Curry creation application has begun.");
-		mainloop: while(true) {
+		mainLoop: while(true) {
 			switch(startMenu()) {
 			case 1: 
 				// user logs in
@@ -38,7 +38,7 @@ public class Menu {
 						consumerMenu();
 						break;
 					case CREATOR:
-						creatorMenu()
+						creatorMenu();
 						break;
 					}	
 				}
@@ -48,9 +48,9 @@ public class Menu {
 				String email = verificationLoop("email");
 				String usernameR = verificationLoop("username");
 				String passwordR = verificationLoop("password");
-				us.registerUser(usernameR, passwordR, email);
+				User registeredUser = us.registerUser(usernameR, passwordR, email);
 				System.out.println("Welcome to the curry creator " + usernameR + "!");
-				loggedUser = u;
+				loggedUser = registeredUser;
 				consumerMenu();
 				Log.info("New User registered: " + loggedUser.toString());
 				break;
@@ -102,7 +102,7 @@ public class Menu {
 	
 	private String verificationLoop(String thing) {
 		while(true) {
-			System.out.println("Please enter a" + thing + ":");
+			System.out.println("Please enter a " + thing + ":");
 			String x0 = scan.nextLine();
 			System.out.println("Please verify your" + thing +":");
 			String x1 = scan.nextLine();

@@ -13,7 +13,8 @@ public class UserServices {
 	public User login(String name, String password) {
 		try {
 			User u = ud.getUser(name);
-			if (password == u.getPassword()) {
+			if (password.equals(u.getPassword())) {
+				// .equals() instead of == bc compared items are String objects
 				return u;
 			} else {
 				System.out.println("The password you have entered is not on file. Try again");

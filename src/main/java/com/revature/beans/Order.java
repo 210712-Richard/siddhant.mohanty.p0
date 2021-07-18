@@ -10,11 +10,10 @@ public class Order implements Serializable{
 	private Integer id;
 	private String name;
 	private LocalDateTime time;
-	private ArrayList<String> ingredients;
-	private Boolean spicy; 
+	private ArrayList<String> ingredients; 
 	// Most Curries will be standardized to a similar size 
 	// (meaning similar number of ingredients), hence an ArrayList.
-	
+	private Boolean spicy;
 	
 	public Order() {
 		super();
