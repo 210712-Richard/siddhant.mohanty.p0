@@ -8,6 +8,7 @@ import com.revature.data.UserDAO;
 public class UserServices {
 
 	private UserDAO ud = new UserDAO();
+	private User u = new User();
 	
 	public User login(String name, String password) {
 		try {
@@ -24,11 +25,12 @@ public class UserServices {
 		} 
 	}
 	
-	public void registerUser(String username, String password, String email) {
+	public User registerUser(String username, String password, String email) {
 		// This function will generate a User with the 
 		// specified attributes and populate users.dat with it.  
 		List<User> userList = ud.getUsers(); 
 		User u = new User(userList.size(), username, password, email);
 		ud.writeToFile(u);
+		return u;
 	}
 }
