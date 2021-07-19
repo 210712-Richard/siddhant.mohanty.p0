@@ -2,6 +2,7 @@ package com.revature.beans;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.io.Serializable;
 
 public class User implements Serializable{
@@ -75,15 +76,7 @@ public class User implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (banned ? 1231 : 1237);
-		result = prime * result + behaviorScore;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		return result;
+		return Objects.hash(banned, behaviorScore, email, id, password, type, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -94,33 +87,14 @@ public class User implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (banned != other.banned)
-			return false;
-		if (behaviorScore != other.behaviorScore)
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (type != other.type)
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
+		return banned == other.banned && behaviorScore == other.behaviorScore && Objects.equals(email, other.email)
+				&& Objects.equals(id, other.id) && Objects.equals(password, other.password) && type == other.type
+				&& Objects.equals(username, other.username);
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", type=" + type + ", behaviorScore="
-				+ behaviorScore + ", banned=" + banned + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", type="
+				+ type + ", behaviorScore=" + behaviorScore + ", banned=" + banned + "]";
 	}
 	
 }

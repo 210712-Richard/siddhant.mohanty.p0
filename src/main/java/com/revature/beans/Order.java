@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class Order implements Serializable{
 	
+	private User issuer;
 	private Integer id;
 	private String name;
 	private LocalDateTime time;
@@ -14,13 +15,16 @@ public class Order implements Serializable{
 	// Most Curries will be standardized to a similar size 
 	// (meaning similar number of ingredients), hence an ArrayList.
 	private Boolean spicy;
+	public static final String[] proteins = {"chicken", "tofu", "beef", "pork", "mutton"};
+	public static final String[] veggies = {"carrots", "potatoes", "tomatoes", "cauliflower", "ginger", "garlic", "onions"};
 	
 	public Order() {
 		super();
 		this.spicy = false;
 	}
 	
-	public Order(Integer id, String name, LocalDateTime time, ArrayList<String> ingredients, Boolean spicy) {
+	public Order(User issuer, Integer id, String name, LocalDateTime time, ArrayList<String> ingredients, Boolean spicy) {
+		this.issuer = issuer;
 		this.id = id;
 		this.name = name;
 		this.time = time;
@@ -28,6 +32,23 @@ public class Order implements Serializable{
 		this.spicy = spicy;
 	}
 	
+	
+	public User getIssuer() {
+		return issuer;
+	}
+
+	public void setIssuer(User issuer) {
+		this.issuer = issuer;
+	}
+
+	public Boolean getSpicy() {
+		return spicy;
+	}
+
+	public void setSpicy(Boolean spicy) {
+		this.spicy = spicy;
+	}
+
 	public LocalDateTime getTime() {
 		return time;
 	}
@@ -60,7 +81,7 @@ public class Order implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, ingredients, name, time);
+		return Objects.hash(id, ingredients, issuer, name, spicy, time);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -72,10 +93,12 @@ public class Order implements Serializable{
 			return false;
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id) && Objects.equals(ingredients, other.ingredients)
-				&& Objects.equals(name, other.name) && Objects.equals(time, other.time);
+				&& Objects.equals(issuer, other.issuer) && Objects.equals(name, other.name)
+				&& Objects.equals(spicy, other.spicy) && Objects.equals(time, other.time);
 	}
 	@Override
 	public String toString() {
-		return "Order [time=" + time + ", name=" + name + ", id=" + id + ", ingredients=" + ingredients + "]";
+		return "Order [issuer=" + issuer + ", id=" + id + ", name=" + name + ", time=" + time + ", ingredients="
+				+ ingredients + ", spicy=" + spicy + "]";
 	}
 }

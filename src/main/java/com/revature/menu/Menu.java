@@ -31,7 +31,7 @@ public class Menu {
 					Log.warn("Failed login");
 				} else {
 					loggedUser = u;
-					System.out.println("Welcome back" + loggedUser.getUsername());
+					System.out.println("Welcome back " + loggedUser.getUsername());
 					Log.info("Login successful for " + loggedUser.getUsername());
 					switch(loggedUser.getType()) {
 					case CONSUMER:
@@ -68,18 +68,29 @@ public class Menu {
 	}
 	
 	private void creatorMenu() {
-		// TODO Auto-generated method stub
-		
+		Log.trace("called creatorMenu()");
+		System.out.println("\t1. Check Pending Orders");
+		System.out.println("\t2. View Registered Users");
+		int selection = select();
+		Log.trace("Creator menu returning selection: "+selection);
+		switch(selection) {
+		case 1:
+			break;
+		case 2:
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void consumerMenu() {
-		// TODO Auto-generated method stub
-		
+		Log.trace("called consumerMenu()");
+		System.out.println("\t1. ");
 	}
 
 	private int startMenu() {
 		Log.trace("called startMenu()");
-		System.out.println("Welcome to the Curry Creator!");
+		System.out.println("Welcome to the Curry Customizer!");
 		System.out.println("What would you like to do?");
 		System.out.println("\t1. Login");
 		System.out.println("\t2. Register");
@@ -104,7 +115,7 @@ public class Menu {
 		while(true) {
 			System.out.println("Please enter a " + thing + ":");
 			String x0 = scan.nextLine();
-			System.out.println("Please verify your" + thing +":");
+			System.out.println("Please verify your " + thing +":");
 			String x1 = scan.nextLine();
 			if (x0.equals(x1)) {
 				return x0;
