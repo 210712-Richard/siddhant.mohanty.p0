@@ -96,12 +96,15 @@ public class Menu {
 		switch(selection) {
 		case 1:
 			us.makeOrder(loggedUser);
+			break;
 		case 2:
 			System.out.println("Your behavior score is " + loggedUser.getBehaviorScore());
+			break;
 		case 3:
 			// non-functional atm, but this should access whether an order the 
 			// user placed has been completed.
 			// us.checkNotifications(loggedUser);
+			break;
 		default:
 			System.out.println("That is not a valid selection. ");
 			break;

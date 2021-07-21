@@ -35,8 +35,14 @@ public class UserServices {
 	
 	public User registerUser(String username, String password, String email) {
 		// This function will generate a User with the 
-		// specified attributes and populate users.dat with it.  
-		List<User> userList = ud.getUsers(); 
+		// specified attributes and populate users.dat with it.
+		ArrayList<User> userList = (ArrayList<User>) ud.getUsers(); 
+		for (User x : userList) {
+			if (username.equals(x.getUsername())) {
+				System.out.println("Username taken. Try again. ");
+				return null;
+			}
+		}
 		User u = new User(userList.size(), username, password, email);
 		ud.writeToFile(u);
 		return u;
@@ -79,7 +85,7 @@ public class UserServices {
 			veggies = Arrays.asList(veg);
 			break;
 		}
-		veggies.add(protein); // Just finalizing the list of ingredients
+		veggies.add(-1, protein); // Just finalizing the list of ingredients
 		spicyloop: while(true) {
 			System.out.println("Do you want your curry spicy? Y or N");
 			String x = scan.nextLine();
