@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import com.revature.beans.Order;
 import com.revature.beans.User;
+import com.revature.beans.UserType;
 import com.revature.data.UserDAO;
 import com.revature.util.SingletonScanner;
 
@@ -51,7 +52,7 @@ public class UserServices {
 	public Order makeOrder(User user) {
 		
 		String protein;
-		List<String> veggies = new ArrayList<String>();
+		ArrayList<String> veggies = new ArrayList<String>();
 		boolean spicy = false;
 		
 		System.out.println("What kind of protein would you like in your curry? You can only pick one.");
@@ -73,7 +74,7 @@ public class UserServices {
 			String[] veg = scan.nextLine().split(" ");
 			Arrays.sort(Order.veggies);
 			Arrays.sort(veg);
-			vegloop: for (String x: veg) {
+			for (String x: veg) {
 				if (Arrays.binarySearch(Order.veggies, x) < 0) {
 					// Just reading the binarySearch documentation, 
 					// it seems like a negative value is only returned 
@@ -82,10 +83,12 @@ public class UserServices {
 					continue mainloop2;
 				}
 			}
-			veggies = Arrays.asList(veg);
+			for (String x : veg) {
+				veggies.add(x);
+			}
 			break;
 		}
-		veggies.add(-1, protein); // Just finalizing the list of ingredients
+		veggies.add(protein); // Just finalizing the list of ingredients
 		spicyloop: while(true) {
 			System.out.println("Do you want your curry spicy? Y or N");
 			String x = scan.nextLine();
@@ -102,11 +105,25 @@ public class UserServices {
 				System.out.println("That wasn't a valid response. Try again.");
 			}
 		}
-		Order o = new Order(user, UserDAO.getOrders().size(), LocalDateTime.now(), veggies, spicy);
+		Order o = new Order(user.getUsername(), UserDAO.getOrders().size(), LocalDateTime.now(), veggies, spicy);
+		ud.writeOrderToFile(o);
 		return o;
 	}
 	
 	public void completeOrder(Order o) {
 		
 	}
+	
+	public void checkNotifications(User u) {
+		
+	}
+	
+	public static void checkUsers(User u) {
+		if (!u.getType().equals(UserType.CREATOR)) {
+			System.out.println("You do not have the access level necessary to view this information");
+		} else {
+			System.out.println(UserDAO.getUsers().toString());
+		}
+	}
+	
 }

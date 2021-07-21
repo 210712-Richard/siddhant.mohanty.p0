@@ -14,11 +14,11 @@ public class UserDAO {
 	private static List<User> users;
 	private static List<Order> orders;
 	
-	public List<User> getUsers() {
+	public static List<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(List<User> users) {
+	public static void setUsers(List<User> users) {
 		UserDAO.users = users;
 	}
 	
