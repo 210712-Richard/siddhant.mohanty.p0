@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -41,10 +43,15 @@ public class UserServices {
 	}
 	
 	public Order makeOrder(User user) {
+		
+		String protein;
+		List<String> veggies = new ArrayList<String>();
+		boolean spicy = false;
+		
 		System.out.println("What kind of protein would you like in your curry? You can only pick one.");
 		mainloop1: while(true) {
 			System.out.println("Your options are: " + Arrays.toString(Order.proteins));
-			String protein = scan.nextLine();
+			protein = scan.nextLine();
 			proteinloop: for(String x : Order.proteins) {
 				while(!protein.equals(x)) {
 					continue proteinloop;
@@ -58,19 +65,42 @@ public class UserServices {
 			System.out.println("Your options are: " + Arrays.toString(Order.veggies));
 			System.out.println("Type out your selections with 1 space in between.");
 			String[] veg = scan.nextLine().split(" ");
-			List<String> veggies = Arrays.asList(veg);
-			vegloop1: for (String y : veg) {
-				vegloop2: for (String x : Order.veggies) {
-					while(!x.equals(y)) {
-						continue vegloop2; 
-					}
-					continue vegloop1;
+			Arrays.sort(Order.veggies);
+			Arrays.sort(veg);
+			vegloop: for (String x: veg) {
+				if (Arrays.binarySearch(Order.veggies, x) < 0) {
+					// Just reading the binarySearch documentation, 
+					// it seems like a negative value is only returned 
+					// when the entry is not found.
+					System.out.println("Those options are not on our menu. Try again.");
+					continue mainloop2;
 				}
-				break mainloop2;
 			}
-			System.out.println("Your veggies don't match what we have on our menu. Try again. ");
+			veggies = Arrays.asList(veg);
+			break;
 		}
-		veggies.add(protein);
+		veggies.add(protein); // Just finalizing the list of ingredients
+		spicyloop: while(true) {
+			System.out.println("Do you want your curry spicy? Y or N");
+			String x = scan.nextLine();
+			switch (x) {
+			case "y":
+			case "Y":
+				spicy = true;
+				break spicyloop;
+			case "n":
+			case "N":
+				break spicyloop;
+			default:
+				// non-response entry
+				System.out.println("That wasn't a valid response. Try again.");
+			}
+		}
+		Order o = new Order(user, UserDAO.getOrders().size(), LocalDateTime.now(), veggies, spicy);
+		return o;
+	}
+	
+	public void completeOrder(Order o) {
 		
 	}
 }

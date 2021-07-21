@@ -75,17 +75,37 @@ public class Menu {
 		Log.trace("Creator menu returning selection: "+selection);
 		switch(selection) {
 		case 1:
+			// non-functional
+			us.checkOrders();
 			break;
 		case 2:
 			break;
 		default:
+			System.out.println("That is not a valid selection. ");
 			break;
 		}
 	}
 
 	private void consumerMenu() {
 		Log.trace("called consumerMenu()");
-		System.out.println("\t1. ");
+		System.out.println("\t1. Place an Order");
+		System.out.println("\t2. Check Behavior Score");
+		System.out.println("\t3. Check Notifications");
+		int selection = select();
+		Log.trace("Consumer menu returning selection: "+selection);
+		switch(selection) {
+		case 1:
+			us.makeOrder(loggedUser);
+		case 2:
+			System.out.println("Your behavior score is " + loggedUser.getBehaviorScore());
+		case 3:
+			// non-functional atm, but this should access whether an order the 
+			// user placed has been completed.
+			us.checkNotifications(loggedUser);
+		default:
+			System.out.println("That is not a valid selection. ");
+			break;
+		}
 	}
 
 	private int startMenu() {
