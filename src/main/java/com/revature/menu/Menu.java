@@ -76,7 +76,7 @@ public class Menu {
 		switch(selection) {
 		case 1:
 			// non-functional
-			us.checkOrders();
+			// us.checkOrders();
 			break;
 		case 2:
 			break;
@@ -101,7 +101,7 @@ public class Menu {
 		case 3:
 			// non-functional atm, but this should access whether an order the 
 			// user placed has been completed.
-			us.checkNotifications(loggedUser);
+			// us.checkNotifications(loggedUser);
 		default:
 			System.out.println("That is not a valid selection. ");
 			break;
