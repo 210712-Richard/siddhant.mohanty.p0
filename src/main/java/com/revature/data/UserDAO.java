@@ -74,9 +74,19 @@ public class UserDAO {
 		new DataSerializer<User>().writeObjectsToFile(users, filename);
 	}
 	
+	public void removeUserFromFile(User user) {
+		users.remove(user);
+		new DataSerializer<User>().writeObjectsToFile(users, filename);
+	}
+	
 	public void writeOrderToFile(Order order) {
 		// Adds a specified order into the orders list and writes the list to a file.
 		orders.add(order);
+		new DataSerializer<Order>().writeObjectsToFile(orders, "orders.dat");
+	}
+	
+	public void removeOrderFromFile(Order order) {
+		orders.remove(order);
 		new DataSerializer<Order>().writeObjectsToFile(orders, "orders.dat");
 	}
 }

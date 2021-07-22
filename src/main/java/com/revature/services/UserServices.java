@@ -110,8 +110,27 @@ public class UserServices {
 		return o;
 	}
 	
+	public void checkOrders(User u) {
+		if (!u.getType().equals(UserType.CREATOR)) {
+			System.out.println("You do not have the access level necessary to view this information");
+		} else {
+			for (Order o : UserDAO.getOrders())
+				System.out.println("Id: " + o.getId() + " | Name: " + o.getIssuer() + " | Ingredients: " + o.getIngredients().toString());
+		}
+	}
+	
 	public void completeOrder(Order o) {
-		
+		if (!u.getType().equals(UserType.CREATOR)) {
+			System.out.println("You do not have the access level necessary to do this");
+		} else {
+			String name = o.getIssuer();
+			for (User u : UserDAO.getUsers()) {
+				if (name.equals(u.getUsername())) {
+					notify(u);
+				}
+			}
+			ud.removeOrderFromFile(o);
+		}
 	}
 	
 	public void checkNotifications(User u) {
@@ -124,6 +143,10 @@ public class UserServices {
 		} else {
 			System.out.println(UserDAO.getUsers().toString());
 		}
+	}
+	
+	public void notify(User u) {
+		
 	}
 	
 }

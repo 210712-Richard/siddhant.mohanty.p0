@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.revature.beans.User;
+import com.revature.data.UserDAO;
 import com.revature.services.UserServices;
 import com.revature.util.SingletonScanner;
 
@@ -76,9 +77,20 @@ public class Menu {
 		switch(selection) {
 		case 1:
 			// non-functional
-			// us.checkOrders();
+			us.checkOrders(loggedUser);
+			System.out.println("Would you like to complete the first order in this list? Y or N ");
+			String response = scan.nextLine();
+			switch(response) {
+			case "y":
+			case "Y":
+				us.completeOrder(UserDAO.getOrders().get(0)); // Want to return the first element in the orders list
+			case "n":
+			case "N":
+				break;
+			}
 			break;
 		case 2:
+			UserServices.checkUsers(loggedUser);
 			break;
 		default:
 			System.out.println("That is not a valid selection. ");

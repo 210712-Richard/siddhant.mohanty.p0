@@ -16,14 +16,14 @@ public class Order implements Serializable{
 	// Most Curries will be standardized to a similar size 
 	// (meaning similar number of ingredients), hence an ArrayList.
 	private Boolean spicy;
-	private Boolean completed;
+	// private Boolean completed;
 	public static final String[] proteins = {"chicken", "tofu", "beef", "pork", "mutton"};
 	public static final String[] veggies = {"carrots", "potatoes", "tomatoes", "cauliflower", "ginger", "garlic", "onions"};
 	
 	public Order() {
 		super();
 		this.spicy = false;
-		this.completed = false;
+		// this.completed = false;
 	}
 	
 	public Order(String issuer, Integer id, LocalDateTime time, List<String> ingredients, Boolean spicy) {
@@ -82,13 +82,13 @@ public class Order implements Serializable{
 	public void setIngredients(ArrayList<String> ingredients) {
 		this.ingredients = ingredients;
 	}
-	public Boolean getCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(Boolean completed) {
-		this.completed = completed;
-	}
+//	public Boolean getCompleted() {
+//		return completed;
+//	}
+//
+//	public void setCompleted(Boolean completed) {
+//		this.completed = completed;
+//	}
 
 	@Override
 	public int hashCode() {
