@@ -154,4 +154,12 @@ public class UserServices {
 	public void notify(User u) {
 		
 	}
+	
+	public void banUser(User u) {
+		if (!u.getType().equals(UserType.CREATOR)) {
+			return;
+		} else {
+			ud.removeUserFromFile(u);
+		}
+	}
 }

@@ -139,6 +139,21 @@ public class UserController {
 	
 	public void banUser(Context ctx) {
 		User loggedUser = ctx.sessionAttribute("loggedUser");
-		
+		String username = ctx.pathParam("username");
+		if(loggedUser == null || !loggedUser.getUsername().equals(username) || !loggedUser.getType().equals(UserType.CREATOR)) {
+			ctx.status(403);
+			return;
+		}
+		String bannedUsername = ctx.pathParam("bannedUser");
+		User bannedUser = UserServices.checkUsers(loggedUser)
+				.stream()
+				.filter((user) -> user.getUsername().equals(bannedUsername))
+				.findFirst()
+				.orElse(null);
+		if (bannedUser.equals(null)) {
+			return;
+		} else {
+			us.banUser(bannedUser);
+		}
 	}
 }
