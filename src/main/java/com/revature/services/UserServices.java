@@ -40,7 +40,7 @@ public class UserServices {
 		ArrayList<User> userList = (ArrayList<User>) ud.getUsers(); 
 		for (User x : userList) {
 			if (username.equals(x.getUsername())) {
-				System.out.println("Username taken. Try again. ");
+				// System.out.println("Username taken. Try again. ");
 				return null;
 			}
 		}
@@ -49,6 +49,7 @@ public class UserServices {
 		return u;
 	}
 	
+	// method should not be used in a web server environment
 	public Order makeOrder(User user) {
 		
 		String protein;
@@ -110,43 +111,47 @@ public class UserServices {
 		return o;
 	}
 	
-	public void checkOrders(User u) {
+	public void mkOrder(User user, List<String> ingredients, Boolean spicy) {
+		Order o = new Order(user.getUsername(), UserDAO.getOrders().size(), LocalDateTime.now(), ingredients, spicy);
+		ud.writeOrderToFile(o);
+	}
+	
+	public static List<Order> checkOrders(User u) {
 		if (!u.getType().equals(UserType.CREATOR)) {
-			System.out.println("You do not have the access level necessary to view this information");
+			// System.out.println("You do not have the access level necessary to view this information");
+			return null;
 		} else {
-			for (Order o : UserDAO.getOrders())
-				System.out.println("Id: " + o.getId() + " | Name: " + o.getIssuer() + " | Ingredients: " + o.getIngredients().toString());
+//			for (Order o : UserDAO.getOrders())
+//				System.out.println("Id: " + o.getId() + " | Name: " + o.getIssuer() + " | Ingredients: " + o.getIngredients().toString());
+			return UserDAO.getOrders();
 		}
 	}
 	
 	public void completeOrder(Order o) {
-		if (!u.getType().equals(UserType.CREATOR)) {
-			System.out.println("You do not have the access level necessary to do this");
-		} else {
-			String name = o.getIssuer();
-			for (User u : UserDAO.getUsers()) {
-				if (name.equals(u.getUsername())) {
-					notify(u);
-				}
+		String name = o.getIssuer();
+		for (User u : UserDAO.getUsers()) {
+			if (name.equals(u.getUsername())) {
+				notify(u);
 			}
-			ud.removeOrderFromFile(o);
 		}
+		ud.removeOrderFromFile(o);
 	}
 	
 	public void checkNotifications(User u) {
 		
 	}
 	
-	public static void checkUsers(User u) {
+	public static List<User> checkUsers(User u) {
 		if (!u.getType().equals(UserType.CREATOR)) {
-			System.out.println("You do not have the access level necessary to view this information");
+			// System.out.println("You do not have the access level necessary to view this information");
+			return null;
 		} else {
-			System.out.println(UserDAO.getUsers().toString());
+			// System.out.println(UserDAO.getUsers().toString());
+			return UserDAO.getUsers();
 		}
 	}
 	
 	public void notify(User u) {
 		
 	}
-	
 }
