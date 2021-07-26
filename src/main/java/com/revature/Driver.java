@@ -25,16 +25,26 @@ public class Driver {
 		UserController uc = new UserController();
 		
 		app.get("/", (ctx)->ctx.html("Hello World"));
-		// login
+		// USER - login
 		app.post("/users", uc::login);
-		// register
+		// USER - register
 		app.put("/users/:username", uc::register);
-		// logout
+		// USER - logout
 		app.delete("/users", uc::logout);
-		// check behavior score
-		app.get("/users/:username/score", uc::getBehaviorscore);
-		// make an order
-		app.post("/users/:username/order", uc::createOrder);
+		// USER - check behavior score
+		app.get("/users/:username/score", uc::getBehaviorScore);
+		// USER - check notifications
+		app.get("/users/:username/notifications", uc::checkNotifications);
+		// USER - make an order
+		app.post("/users/:username/order/:ingredients/:spicy", uc::createOrder);
+		// ADMIN - change a users behavior score
+		app.post("/users/:username/:changeuser/:newBehaviorScore", uc::changeBehaviorScore);
+		// ADMIN - complete an order
+		app.post("/users/:username/:requester", uc::completeOrder);
+		// ADMIN - ban a user
+		app.post("/users/:username/:bannedUser", uc::banUser);
+		// ADMIN - unban a user
+		app.post("/users/:username/:unbannedUser", uc::unbanUser);
 	}
 	
 }

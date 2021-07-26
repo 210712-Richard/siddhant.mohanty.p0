@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,12 +22,17 @@ public class UserServices {
 	public User login(String name, String password) {
 		try {
 			User u = ud.getUser(name);
-			if (password.equals(u.getPassword())) {
-				// .equals() instead of == bc compared items are String objects
-				return u;
-			} else {
-				System.out.println("The password you have entered is not on file. Try again");
+			if (u.isBanned()) {
+				System.out.println("You are banned.");
 				return null;
+			} else {
+				if (password.equals(u.getPassword())) {
+					// .equals() instead of == bc compared items are String objects
+					return u;
+				} else {
+					System.out.println("The password you have entered is not on file. Try again");
+					return null;
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("That username is not associated with an account.");
@@ -131,14 +137,18 @@ public class UserServices {
 		String name = o.getIssuer();
 		for (User u : UserDAO.getUsers()) {
 			if (name.equals(u.getUsername())) {
-				notify(u);
+				notify(u, "The order you put in with ingredients" + 
+							o.getIngredients().toString() + 
+							"is ready.");
 			}
 		}
 		ud.removeOrderFromFile(o);
 	}
 	
-	public void checkNotifications(User u) {
-		
+	public List<String> checkNotifications(User u) {
+		List<String> notifications = u.getNotifications();
+		u.setNotifications(null);
+		return notifications;
 	}
 	
 	public static List<User> checkUsers(User u) {
@@ -151,15 +161,29 @@ public class UserServices {
 		}
 	}
 	
-	public void notify(User u) {
-		
+	public void notify(User u, String notification) {
+		u.getNotifications().add(notification);
 	}
 	
 	public void banUser(User u) {
 		if (!u.getType().equals(UserType.CREATOR)) {
 			return;
 		} else {
-			ud.removeUserFromFile(u);
+			List<String> newnotifications = u.getNotifications();
+			newnotifications.add("You were banned on " + LocalDate.now());
+			u.setNotifications(newnotifications);
+			u.setBanned(true);
+		}
+	}
+	
+	public void unbanUser(User u) {
+		if (!u.getType().equals(UserType.CREATOR)) {
+			return;
+		} else {
+			List<String> newnotifications = u.getNotifications();
+			newnotifications.add("You were unbanned on " + LocalDate.now());
+			u.setNotifications(newnotifications);
+			u.setBanned(false);
 		}
 	}
 }

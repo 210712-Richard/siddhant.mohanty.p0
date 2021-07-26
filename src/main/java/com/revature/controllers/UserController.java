@@ -86,17 +86,27 @@ public class UserController {
 	public void getBehaviorScore(Context ctx) {
 		String username = ctx.pathParam("username");
 		User loggedUser = (User) ctx.sessionAttribute("loggedUser");
-		// if we aren't logged in or our username is different than the logged in username
 		if(loggedUser == null || !loggedUser.getUsername().equals(username)) {
 			ctx.status(403);
 			return;
 		}
-		// otherwise we're golden
 		ctx.json(loggedUser.getBehaviorScore());
+	}
+	
+	public void checkNotifications(Context ctx) {
+		User loggedUser = ctx.sessionAttribute("loggedUser");
+		String username = ctx.pathParam("username");
+		if(loggedUser == null || !loggedUser.getUsername().equals(username)) {
+			ctx.status(403);
+			return;
+		}
+		ctx.json(us.checkNotifications(loggedUser));
 	}
 	
 	/**
 	 * The methods that follow are to be used exclusively by admin users.
+	 * As such, they all contain logic that immediately returns the method
+	 * if the user is not an admin.
 	 */
 	
 	public void changeBehaviorScore(Context ctx) {
@@ -156,4 +166,25 @@ public class UserController {
 			us.banUser(bannedUser);
 		}
 	}
+	
+	public void unbanUser(Context ctx) {
+		User loggedUser = ctx.sessionAttribute("loggedUser");
+		String username = ctx.pathParam("username");
+		if(loggedUser == null || !loggedUser.getUsername().equals(username) || !loggedUser.getType().equals(UserType.CREATOR)) {
+			ctx.status(403);
+			return;
+		}
+		String unbannedUsername = ctx.pathParam("unbannedUser");
+		User unbannedUser = UserServices.checkUsers(loggedUser)
+				.stream()
+				.filter((user) -> user.getUsername().equals(unbannedUsername))
+				.findFirst()
+				.orElse(null);
+		if (unbannedUser.equals(null)) {
+			return;
+		} else {
+			us.unbanUser(unbannedUser);
+		}
+	}
+	
 }
