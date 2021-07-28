@@ -119,6 +119,13 @@ public class UserServices {
 	
 	public void mkOrder(User user, List<String> ingredients, Boolean spicy) {
 		Order o = new Order(user.getUsername(), UserDAO.getOrders().size(), LocalDateTime.now(), ingredients, spicy);
+		for (User u : UserDAO.getUsers()) {
+			if (user.getUsername().equals(u.getUsername())) {
+				notify(u, "The order you put in with ingredients" + 
+							o.getIngredients().toString() + 
+							"is waiting to be made.");
+			}
+		}
 		ud.writeOrderToFile(o);
 	}
 	
@@ -167,11 +174,11 @@ public class UserServices {
 	}
 	
 	public void notify(User u, String notification) {
-		List<String> notifications = new ArrayList<String>(); 
+		List<String> notifications = new ArrayList<String>();
+		notifications.add(notification);
 			try {
 				notifications = u.getNotifications();
 			} catch (NullPointerException n) {}
-		notifications.add(notification);
 		u.setNotifications(notifications);
 	}
 	
