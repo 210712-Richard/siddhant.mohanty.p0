@@ -146,9 +146,11 @@ public class UserServices {
 	}
 	
 	public List<String> checkNotifications(User u) {
-		List<String> notifications = u.getNotifications();
-		if(notifications.equals(null)) {
-			notifications.add("It's a fresh inbox!");
+		List<String> notifications = new ArrayList<String>();
+		try {
+			notifications = u.getNotifications();
+		} catch (NullPointerException n) {
+			notifications.add("fresh inbox!");
 		}
 		u.setNotifications(null);
 		return notifications;
@@ -165,7 +167,12 @@ public class UserServices {
 	}
 	
 	public void notify(User u, String notification) {
-		u.getNotifications().add(notification);
+		List<String> notifications = new ArrayList<String>(); 
+			try {
+				notifications = u.getNotifications();
+			} catch (NullPointerException n) {}
+		notifications.add(notification);
+		u.setNotifications(notifications);
 	}
 	
 	public void banUser(User u) {

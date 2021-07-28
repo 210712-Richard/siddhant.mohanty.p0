@@ -82,6 +82,7 @@ public class User implements Serializable{
 //		if (notifications.isEmpty()) {
 //			notifications.add("Fresh Inbox!");
 //		}
+		// notifications.add(" ");
 		return notifications;
 	}
 

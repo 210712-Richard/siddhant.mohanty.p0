@@ -38,26 +38,25 @@ public class Driver {
 		// USER - check behavior score *
 		app.get("/users/:username/score", uc::getBehaviorScore);
 		
-		// USER - check notifications 
+		// USER - check notifications *
 		app.get("/users/:username/notifications", uc::checkNotifications);
 		
-		// USER - make an order
+		// USER - make an order *
 		app.post("/users/:username/order/:ingredients/:spicy", uc::createOrder);
 		
-		// ADMIN - change a users behavior score
+		// ADMIN - change a users behavior score *
 		app.post("/users/:username/changescore/:changeuser/:newBehaviorScore", uc::changeBehaviorScore);
 		
-		// ADMIN - complete an order
+		// ADMIN - complete an order *
 		app.post("/users/:username/completeorder/:requester", uc::completeOrder);
 		
-		// ADMIN - ban a user
+		// ADMIN - ban a user *
 		app.post("/users/:username/ban/:bannedUser", uc::banUser);
 		
-		// ADMIN - unban a user
+		// ADMIN - unban a user *
 		app.post("/users/:username/unban/:unbannedUser", uc::unbanUser);
 		
-		// ADMIN - check pending orders
+		// ADMIN - check pending orders *
 		app.post("/users/:username/checkorders", uc::checkOrders);
 	}
-	
 }

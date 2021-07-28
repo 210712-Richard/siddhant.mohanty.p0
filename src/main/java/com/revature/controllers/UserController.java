@@ -100,7 +100,11 @@ public class UserController {
 			ctx.status(403);
 			return;
 		}
-		ctx.json(us.checkNotifications(loggedUser));
+		try {
+			ctx.json(us.checkNotifications(loggedUser));
+		} catch (IllegalArgumentException i) {
+			ctx.json("You've got no notifications!");
+		}
 	}
 	
 	/**
