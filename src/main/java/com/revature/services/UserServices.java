@@ -15,7 +15,7 @@ import com.revature.util.SingletonScanner;
 
 public class UserServices {
 
-	private UserDAO ud = new UserDAO();
+	public UserDAO ud = new UserDAO();
 	private User u = new User();
 	private Scanner scan = SingletonScanner.getScanner().getScan();
 	
@@ -43,7 +43,7 @@ public class UserServices {
 	public User registerUser(String username, String password, String email) {
 		// This function will generate a User with the 
 		// specified attributes and populate users.dat with it.
-		ArrayList<User> userList = (ArrayList<User>) ud.getUsers(); 
+		ArrayList<User> userList = (ArrayList<User>) UserDAO.getUsers(); 
 		for (User x : userList) {
 			if (username.equals(x.getUsername())) {
 				// System.out.println("Username taken. Try again. ");
