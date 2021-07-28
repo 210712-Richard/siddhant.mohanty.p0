@@ -1,9 +1,10 @@
 package com.revature.beans;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 // import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.io.Serializable;
 
 public class User implements Serializable{
 	// private static final long serialVersionUID = -6426075925303078798L;
@@ -14,13 +15,14 @@ public class User implements Serializable{
 	private UserType type;
 	private int behaviorScore; // Indicator of how friendly a user is. A lower score is worse.
 	private boolean banned; // Indicator of whether a user is banned or not. 0 behavior score is an auto-ban.
-	private List<String> notifications; 
+	private List<String> notifications = new ArrayList<String>(); 
 	
 	public User() {
 		super();
 		this.type = UserType.CONSUMER;
 		this.behaviorScore = 100;
 		this.banned = false;
+		notifications.add("Welcome!");
 	}
 	
 	public User(Integer id, String username, String password, String email) {
@@ -77,6 +79,9 @@ public class User implements Serializable{
 	}
 	
 	public List<String> getNotifications() {
+//		if (notifications.isEmpty()) {
+//			notifications.add("Fresh Inbox!");
+//		}
 		return notifications;
 	}
 

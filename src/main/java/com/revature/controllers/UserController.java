@@ -139,9 +139,15 @@ public class UserController {
 			return;
 		}
 		String requester = ctx.pathParam("requester");
+		List<Order> orders = UserServices.checkOrders(loggedUser);
+		System.out.println(orders);
 		Order order = UserServices.checkOrders(loggedUser)
 				.stream()
-				.filter((ord)->ord.getIssuer().equals(requester))
+				.filter(ord->{
+					if(ord.getIssuer() == null)
+						return false;
+					return ord.getIssuer().equals(requester);
+				})
 				.findFirst()
 				.orElse(null);
 		us.completeOrder(order);
@@ -185,6 +191,17 @@ public class UserController {
 		} else {
 			us.unbanUser(unbannedUser);
 		}
+	}
+	
+	public void checkOrders(Context ctx) {
+		// Can't check all the orders if we are not an admin
+		User loggedUser = ctx.sessionAttribute("loggedUser");
+		String username = ctx.pathParam("username");
+		if(loggedUser == null || !loggedUser.getUsername().equals(username) || !loggedUser.getType().equals(UserType.CREATOR)) {
+			ctx.status(403);
+			return;
+		}
+		ctx.json(UserServices.checkOrders(loggedUser));
 	}
 	
 }

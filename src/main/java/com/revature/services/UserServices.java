@@ -147,6 +147,9 @@ public class UserServices {
 	
 	public List<String> checkNotifications(User u) {
 		List<String> notifications = u.getNotifications();
+		if(notifications.equals(null)) {
+			notifications.add("It's a fresh inbox!");
+		}
 		u.setNotifications(null);
 		return notifications;
 	}
@@ -166,7 +169,7 @@ public class UserServices {
 	}
 	
 	public void banUser(User u) {
-		if (!u.getType().equals(UserType.CREATOR)) {
+		if (u.getType().equals(UserType.CREATOR)) {
 			return;
 		} else {
 			List<String> newnotifications = u.getNotifications();
@@ -177,7 +180,7 @@ public class UserServices {
 	}
 	
 	public void unbanUser(User u) {
-		if (!u.getType().equals(UserType.CREATOR)) {
+		if (u.getType().equals(UserType.CREATOR)) {
 			return;
 		} else {
 			List<String> newnotifications = u.getNotifications();
