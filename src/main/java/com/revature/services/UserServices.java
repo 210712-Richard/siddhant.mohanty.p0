@@ -10,12 +10,17 @@ import java.util.Scanner;
 import com.revature.beans.Order;
 import com.revature.beans.User;
 import com.revature.beans.UserType;
+import com.revature.controllers.UserController;
 import com.revature.data.UserDAO;
 import com.revature.util.SingletonScanner;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UserServices {
 
 	public UserDAO ud = new UserDAO();
+	private static Logger log = LogManager.getLogger(UserController.class);
 	private User u = new User();
 	private Scanner scan = SingletonScanner.getScanner().getScan();
 	
@@ -24,6 +29,7 @@ public class UserServices {
 			User u = ud.getUser(name);
 			if (u.isBanned()) {
 				System.out.println("You are banned.");
+				log.warn("banned user login attempted: " + u.getUsername());
 				return null;
 			} else {
 				if (password.equals(u.getPassword())) {
@@ -31,6 +37,7 @@ public class UserServices {
 					return u;
 				} else {
 					System.out.println("The password you have entered is not on file. Try again");
+					log.warn("incorrect password entered: " + u.getUsername());
 					return null;
 				}
 			}
@@ -126,12 +133,14 @@ public class UserServices {
 							"is waiting to be made.");
 			}
 		}
+		log.info("order created: " + user.getUsername());
 		ud.writeOrderToFile(o);
 	}
 	
 	public static List<Order> checkOrders(User u) {
 		if (!u.getType().equals(UserType.CREATOR)) {
 			// System.out.println("You do not have the access level necessary to view this information");
+			log.warn("unauthorized user attempting to check orders: " + u.getUsername());
 			return null;
 		} else {
 //			for (Order o : UserDAO.getOrders())
@@ -149,6 +158,7 @@ public class UserServices {
 							"is ready.");
 			}
 		}
+		log.info("order completed: " + name);
 		ud.removeOrderFromFile(o);
 	}
 	
@@ -165,6 +175,7 @@ public class UserServices {
 	public static List<User> checkUsers(User u) {
 		if (!u.getType().equals(UserType.CREATOR)) {
 			// System.out.println("You do not have the access level necessary to view this information");
+			log.warn("unauthorized user attempting to check users: " + u.getUsername());
 			return null;
 		} else {
 			// System.out.println(UserDAO.getUsers().toString());
@@ -180,12 +191,14 @@ public class UserServices {
 	
 	public void banUser(User u) {
 		if (u.getType().equals(UserType.CREATOR)) {
+			log.warn("attempt to ban admin");
 			return;
 		} else {
 			List<String> newnotifications = u.getNotifications();
 			newnotifications.add("You were banned on " + LocalDate.now());
 			u.setNotifications(newnotifications);
 			u.setBanned(true);
+			log.info("User banned: " + u.getUsername());
 		}
 	}
 	
@@ -197,6 +210,7 @@ public class UserServices {
 			newnotifications.add("You were unbanned on " + LocalDate.now());
 			u.setNotifications(newnotifications);
 			u.setBanned(false);
+			log.info("User unbanned: " + u.getUsername());
 		}
 	}
 }
