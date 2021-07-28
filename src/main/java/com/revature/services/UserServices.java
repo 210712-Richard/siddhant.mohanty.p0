@@ -153,13 +153,12 @@ public class UserServices {
 	}
 	
 	public List<String> checkNotifications(User u) {
-		List<String> notifications = new ArrayList<String>();
-		try {
-			notifications = u.getNotifications();
-		} catch (NullPointerException n) {
-			notifications.add("fresh inbox!");
+		List<String> notifications = u.getNotifications();
+		if(notifications.isEmpty()) {
+			notifications.add("No notifications!");
 		}
-		u.setNotifications(null);
+		List<String> emptynotifications = new ArrayList<String>();
+		u.setNotifications(emptynotifications);
 		return notifications;
 	}
 	
@@ -174,12 +173,9 @@ public class UserServices {
 	}
 	
 	public void notify(User u, String notification) {
-		List<String> notifications = new ArrayList<String>();
+		List<String> notifications = u.getNotifications();
 		notifications.add(notification);
-			try {
-				notifications = u.getNotifications();
-			} catch (NullPointerException n) {}
-		u.setNotifications(notifications);
+		u.setNotifications(notifications);	
 	}
 	
 	public void banUser(User u) {
